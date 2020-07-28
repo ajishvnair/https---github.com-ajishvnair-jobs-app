@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
+import { getIcon } from "../../common/helper/commonMethods";
 import http from "../../common/http";
 import MenuImage from "../../components/MenuImage";
 
@@ -22,19 +23,20 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <ScrollView>
-            {jobCategoriesList.map((category, i) => (
+            {(jobCategoriesList || []).map((category, i) => (
                 <ListItem
                     key={i}
                     leftAvatar={
                         <Icon
-                            name={category.icon}
+                            name={getIcon()}
                             type="font-awesome"
-                            color="white"
+                            color="black"
                         />
                     }
                     title={category.name}
-                    // subtitle={l.subtitle}
                     bottomDivider
+                    chevron={{ color: "black" }}
+                    titleStyle={{ fontWeight: "bold" }}
                 />
             ))}
         </ScrollView>
@@ -42,7 +44,7 @@ const HomeScreen = ({ navigation }) => {
 };
 
 HomeScreen["navigationOptions"] = ({ navigation }) => ({
-    title: "Job Categories",
+    title: "Jobs Categories",
     headerLeft: () => (
         <MenuImage
             onPress={() => {
