@@ -4,20 +4,25 @@ import { ListItem, Icon } from "react-native-elements";
 import { getIcon } from "../../common/helper/commonMethods";
 import http from "../../common/http";
 import MenuImage from "../../components/MenuImage";
+import Loader from "../../components/loader";
 
 const HomeScreen = ({ navigation }) => {
     // to store job categories list
     const [jobCategoriesList, setJobCategoriesList] = useState([]);
+    const [loader, setLoader] = useState(true);
 
     // fetch job categories
     useEffect(() => {
+        setLoader(true);
         http.getAction("api/v1/job-categories")
             .then((res) => {
                 const { data } = res.data;
                 setJobCategoriesList([...data]);
+                setLoader(false);
             })
             .catch((err) => {
                 //err
+                setLoader(false);
             });
     }, []);
 
@@ -45,6 +50,7 @@ const HomeScreen = ({ navigation }) => {
                     onPress={() => handleCategoryPress(category.eid)}
                 />
             ))}
+            {loader && <Loader />}
         </ScrollView>
     );
 };
