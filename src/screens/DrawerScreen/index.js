@@ -11,7 +11,7 @@ export default class DrawerContainer extends React.Component {
             <View style={styles.content}>
                 <View style={styles.container}>
                     <MenuButton
-                        title="Home"
+                        title="Categories"
                         source={require("../../../assets/icons/home.png")}
                         onPress={() => {
                             navigation.navigate("Home");
