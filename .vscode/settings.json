@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
         "android"
-    ]
+    ],
+    "editor.formatOnSave": true,
 }
