@@ -32,26 +32,31 @@ const HomeScreen = ({ navigation }) => {
     };
 
     return (
-        <ScrollView>
-            {(jobCategoriesList || []).map((category, i) => (
-                <ListItem
-                    key={i}
-                    leftAvatar={
-                        <Icon
-                            name={getIcon()}
-                            type="font-awesome"
-                            color="black"
+        <>
+            {loader ? (
+                <Loader />
+            ) : (
+                <ScrollView>
+                    {(jobCategoriesList || []).map((category, i) => (
+                        <ListItem
+                            key={i}
+                            leftAvatar={
+                                <Icon
+                                    name={getIcon()}
+                                    type="font-awesome"
+                                    color="black"
+                                />
+                            }
+                            title={category.name}
+                            bottomDivider
+                            chevron={{ color: "black" }}
+                            titleStyle={{ fontWeight: "bold" }}
+                            onPress={() => handleCategoryPress(category.eid)}
                         />
-                    }
-                    title={category.name}
-                    bottomDivider
-                    chevron={{ color: "black" }}
-                    titleStyle={{ fontWeight: "bold" }}
-                    onPress={() => handleCategoryPress(category.eid)}
-                />
-            ))}
-            {loader && <Loader />}
-        </ScrollView>
+                    ))}
+                </ScrollView>
+            )}
+        </>
     );
 };
 

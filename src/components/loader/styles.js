@@ -1,11 +1,11 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 
-const { height } = Dimensions.get("window");
 const styles = StyleSheet.create({
     loader: {
+        flex: 1,
+        height: "100%",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: height / 2 - 60,
     },
 });
 
