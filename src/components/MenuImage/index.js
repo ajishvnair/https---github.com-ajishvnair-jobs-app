@@ -2,23 +2,23 @@ import React from "react";
 import { TouchableOpacity, Image } from "react-native";
 import PropTypes from "prop-types";
 import styles from "./styles";
+import MenuButton from "../MenuButton";
 
-export default class MenuImage extends React.Component {
-    render() {
-        return (
-            <TouchableOpacity
-                style={styles.headerButtonContainer}
-                onPress={this.props.onPress}
-            >
-                <Image
-                    style={styles.headerButtonImage}
-                    source={require("../../../assets/icons/menu.png")}
-                />
-            </TouchableOpacity>
-        );
-    }
-}
+const MenuImage = (props) => {
+    return (
+        <TouchableOpacity
+            style={styles.headerButtonContainer}
+            onPress={props.onPress}
+        >
+            <Image
+                style={styles.headerButtonImage}
+                source={require("../../../assets/icons/menu.png")}
+            />
+        </TouchableOpacity>
+    );
+};
 
 MenuImage.propTypes = {
     onPress: PropTypes.func,
 };
+export default MenuImage;
