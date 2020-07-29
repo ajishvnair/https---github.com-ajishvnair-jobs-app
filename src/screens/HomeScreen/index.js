@@ -61,7 +61,7 @@ const HomeScreen = ({ navigation }) => {
 };
 
 HomeScreen["navigationOptions"] = ({ navigation }) => ({
-    title: "Jobs Categories",
+    title: "Jobs Available",
     headerLeft: () => (
         <MenuImage
             onPress={() => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Image, ScrollView } from "react-native";
+import { Text, View, Image, ScrollView, ToastAndroid } from "react-native";
 import { Card, Divider, Button, Overlay } from "react-native-elements";
 import styles from "./styles";
 import FormScreen from "../FormScreen";
@@ -8,6 +8,16 @@ export default function ({ navigation }) {
     // used to show overlay
     const [showOverlay, setShowOverlay] = useState(false);
     const job = navigation.getParam("job", 1);
+
+    const showToast = (message) => {
+        ToastAndroid.show(
+            message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+        );
+    };
     return (
         <>
             <ScrollView>
@@ -111,8 +121,16 @@ export default function ({ navigation }) {
                     onPress={() => setShowOverlay(true)}
                 />
             </View>
-            <Overlay height="50%" isVisible={showOverlay}>
-                <FormScreen id={job.eid} />
+            <Overlay
+                height="50%"
+                isVisible={showOverlay}
+                onBackdropPress={() => setShowOverlay(false)}
+            >
+                <FormScreen
+                    id={job.eid}
+                    setVisible={setShowOverlay}
+                    showToast={showToast}
+                />
             </Overlay>
         </>
     );

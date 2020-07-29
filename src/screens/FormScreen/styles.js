@@ -18,6 +18,14 @@ const styles = StyleSheet.create({
         height: 30,
         marginBottom: 5,
     },
+    error: {
+        color: "red",
+    },
+    fileName: {
+        fontWeight: "bold",
+        marginLeft: 10,
+        marginBottom: 5,
+    },
 });
 
 export default styles;
