@@ -48,20 +48,24 @@ const JobScreen = ({ navigation }) => {
                         <Divider />
                         {/* education and salary */}
                         <View style={styles.row}>
-                            {job.education && (
+                            {job.education ? (
                                 <View style={styles.col1}>
                                     <Text style={styles.sub}>Education</Text>
                                     <Text>{job.education}</Text>
                                 </View>
-                            )}
-                            <View style={styles.col2}>
-                                {job.salary ? (
-                                    <>
-                                        <Text style={styles.sub}>Salary</Text>
-                                        <Text>{job.salary}</Text>
-                                    </>
-                                ) : null}
-                            </View>
+                            ) : null}
+                            {job.salary ? (
+                                <View
+                                    style={
+                                        job.education
+                                            ? styles.col2
+                                            : styles.col1
+                                    }
+                                >
+                                    <Text style={styles.sub}>Salary</Text>
+                                    <Text>{job.salary}</Text>
+                                </View>
+                            ) : null}
                         </View>
                         <Divider />
                         {/* company name and location */}
@@ -87,10 +91,10 @@ const JobScreen = ({ navigation }) => {
                             </>
                         )}
                         {/* constact details name and email */}
-                        {job.show_contact && (
+                        {job.show_contact === 1 && (
                             <>
                                 <Divider />
-                                {job.email && (
+                                {job.email ? (
                                     <View style={styles.singleRow}>
                                         <View style={styles.mg5}>
                                             <Image
@@ -100,9 +104,9 @@ const JobScreen = ({ navigation }) => {
                                         </View>
                                         <Text>{job.email}</Text>
                                     </View>
-                                )}
+                                ) : null}
 
-                                {job.phone && (
+                                {job.phone ? (
                                     <View style={styles.singleRow}>
                                         <View style={styles.mg5}>
                                             <Image
@@ -112,7 +116,7 @@ const JobScreen = ({ navigation }) => {
                                         </View>
                                         <Text>{job.phone}</Text>
                                     </View>
-                                )}
+                                ) : null}
                             </>
                         )}
                     </View>
