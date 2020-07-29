@@ -25,6 +25,10 @@ export default function ({ navigation }) {
             });
     }, []);
 
+    const handleJobSelect = (job) => {
+        navigation.navigate("Job", { job });
+    };
+
     return (
         <>
             {loader ? (
@@ -39,7 +43,7 @@ export default function ({ navigation }) {
                             bottomDivider
                             chevron={{ color: "black" }}
                             titleStyle={{ fontWeight: "bold" }}
-                            // onPress={() => handleCategoryPress(category.eid)}
+                            onPress={() => handleJobSelect(job)}
                         />
                     ))}
                 </ScrollView>
