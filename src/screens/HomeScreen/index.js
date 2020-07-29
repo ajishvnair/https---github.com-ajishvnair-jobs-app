@@ -27,8 +27,8 @@ const HomeScreen = ({ navigation }) => {
     }, []);
 
     // navigate to job list page
-    const handleCategoryPress = (id) => {
-        navigation.navigate("Jobs", { id });
+    const handleCategoryPress = (id, title) => {
+        navigation.navigate("Jobs", { id, title });
     };
 
     return (
@@ -51,7 +51,9 @@ const HomeScreen = ({ navigation }) => {
                             bottomDivider
                             chevron={{ color: "black" }}
                             titleStyle={{ fontWeight: "bold" }}
-                            onPress={() => handleCategoryPress(category.eid)}
+                            onPress={() =>
+                                handleCategoryPress(category.eid, category.name)
+                            }
                         />
                     ))}
                 </ScrollView>

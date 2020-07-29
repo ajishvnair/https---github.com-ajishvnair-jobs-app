@@ -4,12 +4,13 @@ import { ListItem } from "react-native-elements";
 import http from "../../common/http";
 import Loader from "../../components/loader";
 
-export default function ({ navigation }) {
+const JobsScreen = ({ navigation }) => {
     // jobs list by category
     const [jobsList, setJobsList] = useState([]);
     const [loader, setLoader] = useState(true);
 
     const id = navigation.getParam("id", 1);
+    const title = navigation.getParam("title", 1);
 
     useEffect(() => {
         http.getAction(`api/v1/jobs-available/?id=${id}`)
@@ -50,4 +51,9 @@ export default function ({ navigation }) {
             )}
         </>
     );
-}
+};
+JobsScreen["navigationOptions"] = ({ navigation }) => ({
+    title: navigation.getParam("title", 1) || "Jobs",
+});
+
+export default JobsScreen;

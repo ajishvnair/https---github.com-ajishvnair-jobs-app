@@ -4,7 +4,7 @@ import { Card, Divider, Button, Overlay } from "react-native-elements";
 import styles from "./styles";
 import FormScreen from "../FormScreen";
 
-export default function ({ navigation }) {
+const JobScreen = ({ navigation }) => {
     // used to show overlay
     const [showOverlay, setShowOverlay] = useState(false);
     const job = navigation.getParam("job", 1);
@@ -25,6 +25,7 @@ export default function ({ navigation }) {
                     containerStyle={{ padding: 0 }}
                     image={require("../../../assets/bg.jpg")}
                 >
+                    {/* All contents are set inside card */}
                     <View style={styles.card}>
                         <Text style={styles.title}>{job.title}</Text>
                         <Divider />
@@ -45,6 +46,7 @@ export default function ({ navigation }) {
                             </View>
                         </View>
                         <Divider />
+                        {/* education and salary */}
                         <View style={styles.row}>
                             {job.education && (
                                 <View style={styles.col1}>
@@ -62,6 +64,7 @@ export default function ({ navigation }) {
                             </View>
                         </View>
                         <Divider />
+                        {/* company name and location */}
                         {job.company_name && job.show_company === 1 && (
                             <>
                                 <View style={styles.row}>
@@ -83,6 +86,7 @@ export default function ({ navigation }) {
                                 <Divider />
                             </>
                         )}
+                        {/* constact details name and email */}
                         {job.show_contact && (
                             <>
                                 <Divider />
@@ -134,4 +138,10 @@ export default function ({ navigation }) {
             </Overlay>
         </>
     );
-}
+};
+
+JobScreen["navigationOptions"] = ({ navigation }) => ({
+    title: navigation.getParam("job", 1).title || "Job",
+});
+
+export default JobScreen;
