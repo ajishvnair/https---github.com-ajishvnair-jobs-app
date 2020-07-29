@@ -111,7 +111,7 @@ export default function ({ navigation }) {
                     onPress={() => setShowOverlay(true)}
                 />
             </View>
-            <Overlay isVisible={showOverlay}>
+            <Overlay height="50%" isVisible={showOverlay}>
                 <FormScreen id={job.eid} />
             </Overlay>
         </>
