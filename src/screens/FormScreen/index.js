@@ -35,16 +35,18 @@ export default function ({ setVisible, id, showToast }) {
      */
     const handleUpload = useCallback(async () => {
         setUploadLoader(true);
-        const file = await DocumentPicker.getDocumentAsync({
+        const fileToUpload = await DocumentPicker.getDocumentAsync({
             type: "application/pdf",
             copyToCacheDirectory: true,
             multiple: false,
         });
-        if (file.type === "success") {
-            setFile({ file, error: null });
+        if (fileToUpload.type === "success") {
+            setFile({ file: fileToUpload, error: null });
+        } else {
+            setFile({ ...file, error: "Please Select file" });
         }
         setUploadLoader(false);
-    }, [setFile, setUploadLoader]);
+    }, [setFile, setUploadLoader, file]);
     /**
      * handle form submit (apply)
      * validate all fields if it success

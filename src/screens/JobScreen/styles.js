@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     sub: {
-        fontSize: 18,
+        fontSize: 16,
+        fontWeight: "bold",
     },
     colVertical: {
         flex: 1,
