@@ -22,7 +22,7 @@ export default function ({ setVisible, id, showToast }) {
     const [phone, setPhone] = useState({ value: "", error: null });
     const [gender, setGender] = useState({ value: "male", error: null });
     /**
-     * to change input values name and email
+     * to change input values
      *
      */
     const onInputChange = useCallback(
@@ -97,7 +97,7 @@ export default function ({ setVisible, id, showToast }) {
                 resume,
             };
 
-            http.postAction("api/v1/applyjob", { ...payload })
+            http.postAction("applyjob", { ...payload })
                 .then((res) => {
                     if (res.status === 200) {
                         setVisible(false);

@@ -14,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
     // fetch job categories
     useEffect(() => {
         setLoader(true);
-        http.getAction("api/v1/job-categories")
+        http.getAction("job-categories")
             .then((res) => {
                 const { data } = res.data;
                 setJobCategoriesList([...data]);

@@ -13,7 +13,7 @@ const JobsScreen = ({ navigation }) => {
     const title = navigation.getParam("title", 1);
 
     useEffect(() => {
-        http.getAction(`api/v1/jobs-available/?id=${id}`)
+        http.getAction(`jobs-available/?id=${id}`)
             .then((res) => {
                 const {
                     data: { data = [] },
