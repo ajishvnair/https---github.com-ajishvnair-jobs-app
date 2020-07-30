@@ -57,9 +57,10 @@ export default function ({ setVisible, id, showToast }) {
         });
         if (fileToUpload.type === "success") {
             setFile({ file: fileToUpload, error: null });
-        } else {
-            setFile({ ...file, error: "Please Select file" });
         }
+        // else {
+        //     setFile({ ...file, error: "Please Select file" });
+        // }
         setUploadLoader(false);
     }, [setFile, setUploadLoader, file]);
     /**
