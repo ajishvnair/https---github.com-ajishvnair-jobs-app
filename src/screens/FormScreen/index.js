@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
-import { Input, Button, Icon, CheckBox } from "react-native-elements";
+import { Input, Button, Icon, CheckBox, Tooltip } from "react-native-elements";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import http from "../../common/http";
@@ -69,19 +69,23 @@ export default function ({ setVisible, id, showToast }) {
      */
     const handleSumbit = async () => {
         if (!validateName(name.value)) {
-            setName({ ...name, error: "Name contains atleast 6 characters" });
+            setName({ ...name, error: "Name contains atleast 3 letters" });
         } else if (!validateEmail(email.value)) {
             setEmail({ ...email, error: "Invalid Email Address" });
         } else if (!validatePhone(phone.value)) {
             setPhone({ ...phone, error: "Invalid phone number" });
-        } else if (file.file.name === "") {
-            setFile({ ...file, error: "Please upload resume" });
-        } else {
+        }
+        // else if (file.file.name === "") {
+        //     setFile({ ...file, error: "Please upload resume" });
+        // }
+        else {
+            let resume = "";
             setSubmitLoader(true);
-
-            const resume = await FileSystem.readAsStringAsync(file.file.uri, {
-                encoding: FileSystem.EncodingType.Base64,
-            });
+            if (file.file.uri) {
+                resume = await FileSystem.readAsStringAsync(file.file.uri, {
+                    encoding: FileSystem.EncodingType.Base64,
+                });
+            }
 
             const payload = {
                 job_id: id,
@@ -116,7 +120,7 @@ export default function ({ setVisible, id, showToast }) {
                     keyboardVerticalOffset={-550}
                 >
                     <Input
-                        label="Enter Your Name"
+                        label={<Text style={styles.bold}>Enter your name</Text>}
                         value={name.value}
                         leftIcon={
                             <Icon
@@ -132,7 +136,9 @@ export default function ({ setVisible, id, showToast }) {
                         errorMessage={name.error}
                     />
                     <Input
-                        label="Enter Your Email"
+                        label={
+                            <Text style={styles.bold}>Enter your Email</Text>
+                        }
                         value={email.value}
                         leftIcon={
                             <Icon
@@ -147,8 +153,14 @@ export default function ({ setVisible, id, showToast }) {
                         disabled={submitLoader}
                         errorMessage={email.error}
                     />
+
                     <Input
-                        label="Enter Your Phone Number"
+                        label={
+                            <Text style={styles.bold}>
+                                Enter your phone number
+                            </Text>
+                        }
+                        placeholder="+1 2025550196"
                         value={phone.value}
                         leftIcon={
                             <Icon
@@ -158,12 +170,13 @@ export default function ({ setVisible, id, showToast }) {
                                 size={20}
                             />
                         }
-                        keyboardType="numeric"
+                        keyboardType="numbers-and-punctuation"
                         // operations
                         onChangeText={(value) => onInputChange("phone", value)}
                         disabled={submitLoader}
                         errorMessage={phone.error}
                     />
+
                     <Text style={styles.fileName}>Gender</Text>
                     <View style={styles.row}>
                         <CheckBox

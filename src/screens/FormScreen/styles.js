@@ -31,6 +31,17 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
     },
+    bold: {
+        fontWeight: "bold",
+    },
+    tooltip: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    mgLeft5: {
+        marginLeft: 5,
+    },
 });
 
 export default styles;

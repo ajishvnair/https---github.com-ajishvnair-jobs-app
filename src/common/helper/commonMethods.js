@@ -12,10 +12,11 @@ export const validateEmail = (value) => {
     return false;
 };
 
-export const validateName = (value) => value.length > 5;
+export const validateName = (value) => value.length > 2;
 
 export const validatePhone = (value) => {
-    const phno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    // const phno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    const phno = /^\+(?:[0-9] ?){6,14}[0-9]$/;
     if (phno.test(value)) {
         return true;
     }
