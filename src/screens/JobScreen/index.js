@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, View, Image, ScrollView, ToastAndroid } from "react-native";
+import {
+    Text,
+    View,
+    Image,
+    ScrollView,
+    ToastAndroid,
+    KeyboardAvoidingView,
+} from "react-native";
 import { Card, Divider, Button, Overlay } from "react-native-elements";
 import styles from "./styles";
 import FormScreen from "../FormScreen";
@@ -123,12 +130,20 @@ const JobScreen = ({ navigation }) => {
                 </Card>
             </ScrollView>
             <View style={styles.btmButton}>
-                <Button
-                    buttonStyle={{ height: 50 }}
-                    title="APPLY NOW"
-                    onPress={() => setShowOverlay(true)}
-                />
+                <ScrollView>
+                    <KeyboardAvoidingView
+                        behavior="height"
+                        keyboardVerticalOffset={-550}
+                    >
+                        <Button
+                            buttonStyle={{ height: 50 }}
+                            title="APPLY NOW"
+                            onPress={() => setShowOverlay(true)}
+                        />
+                    </KeyboardAvoidingView>
+                </ScrollView>
             </View>
+
             <Overlay
                 height="50%"
                 isVisible={showOverlay}

@@ -1,8 +1,15 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, KeyboardAvoidingView } from "react-native";
-import { Input, Button, Icon } from "react-native-elements";
+import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
+import { Input, Button, Icon, CheckBox } from "react-native-elements";
 import * as DocumentPicker from "expo-document-picker";
-import { validateEmail, validateName } from "../../common/helper/commonMethods";
+import * as FileSystem from "expo-file-system";
+import http from "../../common/http";
+
+import {
+    validateEmail,
+    validateName,
+    validatePhone,
+} from "../../common/helper/commonMethods";
 import styles from "./styles";
 
 export default function ({ setVisible, id, showToast }) {
@@ -12,6 +19,8 @@ export default function ({ setVisible, id, showToast }) {
     const [file, setFile] = useState({ file: { name: "" }, error: null });
     const [uploadLoader, setUploadLoader] = useState(false);
     const [submitLoader, setSubmitLoader] = useState(false);
+    const [phone, setPhone] = useState({ value: "", error: null });
+    const [gender, setGender] = useState({ value: "male", error: null });
     /**
      * to change input values name and email
      *
@@ -25,9 +34,15 @@ export default function ({ setVisible, id, showToast }) {
                 case "email":
                     setEmail({ value, error: null });
                     break;
+                case "phone":
+                    setPhone({ value, error: null });
+                    break;
+                case "gender":
+                    setGender({ value, error: null });
+                    break;
             }
         },
-        [setEmail, setName]
+        [setEmail, setName, setPhone, setGender]
     );
     /**
      * to handle file upload using documnet picker
@@ -52,85 +67,144 @@ export default function ({ setVisible, id, showToast }) {
      * validate all fields if it success
      * then post api call
      */
-    const handleSumbit = useCallback(() => {
+    const handleSumbit = async () => {
         if (!validateName(name.value)) {
             setName({ ...name, error: "Name contains atleast 6 characters" });
         } else if (!validateEmail(email.value)) {
             setEmail({ ...email, error: "Invalid Email Address" });
+        } else if (!validatePhone(phone.value)) {
+            setPhone({ ...phone, error: "Invalid phone number" });
         } else if (file.file.name === "") {
             setFile({ ...file, error: "Please upload resume" });
         } else {
             setSubmitLoader(true);
-            setVisible(false);
-            showToast("Application submitted successfully");
+
+            const resume = await FileSystem.readAsStringAsync(file.file.uri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+
+            const payload = {
+                job_id: id,
+                name: name.value,
+                email: email.value,
+                gender: gender.value,
+                phone: phone.value,
+                resume,
+            };
+
+            http.postAction("api/v1/applyjob", { ...payload })
+                .then((res) => {
+                    if (res.status === 200) {
+                        setVisible(false);
+                        showToast("Application submitted successfully");
+                    } else {
+                        setVisible(false);
+                        showToast("Error while submitting try again");
+                    }
+                })
+                .catch((err) => {
+                    setVisible(false);
+                    showToast("Error while submitting try again");
+                });
         }
-    }, [
-        validateName,
-        validateEmail,
-        setName,
-        setEmail,
-        setFile,
-        name,
-        email,
-        file,
-    ]);
+    };
     return (
         <View style={styles.container}>
-            <KeyboardAvoidingView
-                behavior="position"
-                keyboardVerticalOffset={-550}
-            >
-                <Input
-                    label="Enter Your Name"
-                    value={name.value}
-                    leftIcon={
-                        <Icon
-                            name="user"
-                            type="font-awesome"
-                            color="black"
-                            size={20}
+            <ScrollView>
+                <KeyboardAvoidingView
+                    behavior="position"
+                    keyboardVerticalOffset={-550}
+                >
+                    <Input
+                        label="Enter Your Name"
+                        value={name.value}
+                        leftIcon={
+                            <Icon
+                                name="user"
+                                type="font-awesome"
+                                color="black"
+                                size={20}
+                            />
+                        }
+                        // operations
+                        onChangeText={(value) => onInputChange("name", value)}
+                        disabled={submitLoader}
+                        errorMessage={name.error}
+                    />
+                    <Input
+                        label="Enter Your Email"
+                        value={email.value}
+                        leftIcon={
+                            <Icon
+                                name="envelope"
+                                type="font-awesome"
+                                color="black"
+                                size={20}
+                            />
+                        }
+                        // operations
+                        onChangeText={(value) => onInputChange("email", value)}
+                        disabled={submitLoader}
+                        errorMessage={email.error}
+                    />
+                    <Input
+                        label="Enter Your Phone Number"
+                        value={phone.value}
+                        leftIcon={
+                            <Icon
+                                name="phone"
+                                type="font-awesome"
+                                color="black"
+                                size={20}
+                            />
+                        }
+                        keyboardType="numeric"
+                        // operations
+                        onChangeText={(value) => onInputChange("phone", value)}
+                        disabled={submitLoader}
+                        errorMessage={phone.error}
+                    />
+                    <Text style={styles.fileName}>Gender</Text>
+                    <View style={styles.row}>
+                        <CheckBox
+                            title="Male"
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="circle-o"
+                            checked={gender.value === "male"}
+                            onPress={() => onInputChange("gender", "male")}
+                            disabled={submitLoader}
                         />
-                    }
-                    // operations
-                    onChangeText={(value) => onInputChange("name", value)}
-                    disabled={submitLoader}
-                    errorMessage={name.error}
-                />
-                <Input
-                    label="Enter Your Email"
-                    value={email.value}
-                    leftIcon={
-                        <Icon
-                            name="envelope"
-                            type="font-awesome"
-                            color="black"
-                            size={20}
+                        <CheckBox
+                            title="Female"
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="circle-o"
+                            checked={gender.value === "female"}
+                            onPress={() => onInputChange("gender", "female")}
+                            disabled={submitLoader}
                         />
-                    }
-                    // operations
-                    onChangeText={(value) => onInputChange("email", value)}
-                    disabled={submitLoader}
-                    errorMessage={email.error}
-                />
-                <View>
-                    <Text style={styles.fileName}>{file.file.name}</Text>
-                </View>
-                <Button
-                    type="outline"
-                    title="Upload Resume"
-                    buttonStyle={styles.upload}
-                    onPress={handleUpload}
-                    loading={uploadLoader}
-                    disabled={submitLoader}
-                />
-                {file.error && <Text style={styles.error}>{file.error}</Text>}
-                <Button
-                    buttonStyle={styles.button}
-                    title="Apply"
-                    loading={submitLoader}
-                    onPress={handleSumbit}
-                />
-            </KeyboardAvoidingView>
+                    </View>
+                    <View>
+                        <Text style={styles.fileName}>{file.file.name}</Text>
+                    </View>
+                    <Button
+                        type="outline"
+                        title="Upload Resume"
+                        buttonStyle={styles.upload}
+                        onPress={handleUpload}
+                        loading={uploadLoader}
+                        disabled={submitLoader}
+                    />
+                    {file.error && (
+                        <Text style={styles.error}>{file.error}</Text>
+                    )}
+                    <Button
+                        buttonStyle={styles.button}
+                        title="Apply"
+                        loading={submitLoader}
+                        onPress={handleSumbit}
+                    />
+                </KeyboardAvoidingView>
+            </ScrollView>
         </View>
     );
 }

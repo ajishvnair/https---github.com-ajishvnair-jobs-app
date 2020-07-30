@@ -12,6 +12,7 @@
     "axios": "^0.19.2",
     "expo": "~38.0.8",
     "expo-document-picker": "~8.2.1",
+    "expo-file-system": "~9.0.1",
     "expo-status-bar": "^1.0.2",
     "prop-types": "^15.7.2",
     "react": "~16.11.0",

@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginBottom: 5,
     },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+    },
 });
 
 export default styles;

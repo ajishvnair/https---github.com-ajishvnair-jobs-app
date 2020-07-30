@@ -1,11 +1,20 @@
 import axios from "axios";
 
-const LOCALHOST = "https://muscateer.om/EN/";
+import { GET_URL, POST_URL } from "../../environments/Environments";
 
-const getBaseUrl = (url) => `${LOCALHOST}${url}`;
+const getBaseUrl = (type, url) => {
+    switch (type) {
+        case "get":
+            return `${GET_URL}${url}`;
+        case "post":
+            return `${POST_URL}${url}`;
+    }
+};
 
 export default {
-    getAction: (url) => axios.get(getBaseUrl(url)).catch((err) => {}),
+    getAction: (url) => axios.get(getBaseUrl("get", url)).catch((err) => {}),
     postAction: (url, payload, headers = {}) =>
-        axios.post(getBaseUrl(url), payload, headers).catch((err) => {}),
+        axios
+            .post(getBaseUrl("post", url), payload, headers)
+            .catch((err) => {}),
 };
