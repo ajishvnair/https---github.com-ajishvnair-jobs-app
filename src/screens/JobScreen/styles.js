@@ -49,9 +49,14 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     btmButton: {
-        position: "absolute",
-        width: "100%",
-        bottom: 0,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    button: {
+        width: 200,
+        margin: 20,
+        borderRadius: 15,
     },
 });
 export default styles;

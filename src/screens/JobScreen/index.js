@@ -128,8 +128,15 @@ const JobScreen = ({ navigation }) => {
                         )}
                     </View>
                 </Card>
+                <View style={styles.btmButton}>
+                    <Button
+                        buttonStyle={styles.button}
+                        title="APPLY NOW"
+                        onPress={() => setShowOverlay(true)}
+                    />
+                </View>
             </ScrollView>
-            <View style={styles.btmButton}>
+            {/* <View style={styles.btmButton}>
                 <ScrollView>
                     <KeyboardAvoidingView
                         behavior="height"
@@ -142,7 +149,7 @@ const JobScreen = ({ navigation }) => {
                         />
                     </KeyboardAvoidingView>
                 </ScrollView>
-            </View>
+            </View> */}
 
             <Overlay
                 height="50%"
