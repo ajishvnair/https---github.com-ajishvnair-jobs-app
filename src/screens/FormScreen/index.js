@@ -110,7 +110,7 @@ export default function ({ setVisible, id, showToast }) {
     };
     return (
         <View style={styles.container}>
-            <ScrollView>
+            <ScrollView keyboardShouldPersistTaps={"handled"}>
                 <KeyboardAvoidingView
                     behavior="position"
                     keyboardVerticalOffset={-550}
